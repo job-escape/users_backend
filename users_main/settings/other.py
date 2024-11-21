@@ -96,6 +96,10 @@ PUBSUB_PM_TOPIC_ID = stage_pubsub_config.get("PUBSUB_PM_TOPIC_ID") if STAGE else
 GCP_PROJECT_ID = gcp_infos.get("GCP_PROJECT_ID")
 GCP_LOCATION = gcp_infos.get("GCP_LOCATION")
 
+# USERS URL
+PROD_USERS_SERVICE_URL = "https://api.user.jobescape.me"
+STAGE_USERS_SERVICE_URL = env("STAGE_USERS_SERVICE_URL") # "https://stage.api.user.jobescape.me"
+
 # GOOGLE TASKS INFO
 STAGE_QUEUE_SEND_WELCOME = stage_users_tasks.get('STAGE_QUEUE_SEND_WELCOME') if STAGE else prod_users_tasks.get("PROD_QUEUE_SEND_WELCOME")
 STAGE_QUEUE_DELAY_EMAIL=stage_users_tasks.get('STAGE_QUEUE_DELAY_EMAIL') if STAGE else prod_users_tasks.get("PROD_QUEUE_DELAY_EMAIL")
