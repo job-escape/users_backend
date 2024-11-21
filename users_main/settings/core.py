@@ -75,7 +75,7 @@ aws_secrets = json.loads(aws_secrets_json) if aws_secrets_json else {}
 # HOSTS
 ALLOWED_HOSTS = ['api.jobescape.me', 'api.jobescape.us']
 if STAGE:
-    ALLOWED_HOSTS = ['stage.api.jobescape.me', 'stage.api.jobescape.us']
+    ALLOWED_HOSTS = ['stage.api.jobescape.me', 'stage.api.jobescape.us', 'users-stage-397596874269.us-east1.run.app']
 if DEBUG:
     ALLOWED_HOSTS.extend(['.localhost', '127.0.0.1', '[::1]', '0.0.0.0', env("NGROK_HOST", str)])
     NGROK_IP = env("NGROK_IP", str)
