@@ -5,11 +5,11 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && apt-get install -y git && apt-get clean
 
-WORKDIR /users
+WORKDIR /users_main
 
-COPY requirements.txt /users/
+COPY requirements.txt /users_main/
 RUN pip install --no-cache -r requirements.txt
 
-COPY . /users/
+COPY . /users_main/
 
-CMD ["sh", "-c", "python manage.py migrate && gunicorn --workers=2 --threads=4 --bind 0.0.0.0:$PORT academy.wsgi:application"]
+CMD ["sh", "-c", "python manage.py migrate && gunicorn --workers=2 --threads=4 --bind 0.0.0.0:$PORT users_main.wsgi:application"]
