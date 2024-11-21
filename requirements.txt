@@ -1,0 +1,38 @@
+django-ratelimit==4.1.0
+# Django==3.2.6
+Django==4.2.4
+# djangorestframework==3.12.4
+djangorestframework==3.14.0
+Pillow==10.4.0
+psycopg2-binary==2.9.9
+djangorestframework-simplejwt==5.3.1
+django-import-export==4.1.1
+django-nested-admin==4.1.1
+drf-spectacular==0.27.2
+pyjwt==2.9.0
+django-environ==0.11.2
+django-silk==5.1.0
+django-cors-headers==4.2.0
+django-storages==1.14.4
+boto3==1.35.37
+gunicorn==23.0.0
+djangorestframework-xml==2.0.0
+django-silk==5.1.0
+google-auth==2.35.0
+google-cloud==0.34.0
+google-cloud-secret-manager==2.7.2
+google-cloud-tasks==2.16.5
+posthog==3.5.0
+django-polymorphic==3.1.0
+django-tinymce==3.6.1
+mailerlite==0.1.6
+pandas==2.2.2
+amplitude-analytics==1.1.4
+facebook_business==20.0.0
+google-cloud-pubsub==2.23.0
+checkout-sdk==3.0.22
+Deprecated==1.2.14 # checkout-sdk requires
+solidgate-sdk @ git+https://github.com/Olzhassss/python-sdk.git@d99f535d87975d840da88afefce12ead91fe65fc
+growthbook==1.0.0
+django-polymorphic==3.1.0
+django-rest-polymorphic==0.1.10

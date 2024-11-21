@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  users_db:
+    image: postgres:16
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - 5532:5432
+    environment:
+      POSTGRES_DB: "users_db"
+      POSTGRES_USER: "users_db"
+      POSTGRES_PASSWORD: "users_db"
+
+  users:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/users
+    ports:
+      - "8100:8000"
+    depends_on:
+      - users_db
+
+
+volumes:
+  pg_data:
