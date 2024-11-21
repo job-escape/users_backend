@@ -78,8 +78,8 @@ if STAGE:
     ALLOWED_HOSTS = ['stage.api.jobescape.me', 'stage.api.jobescape.us', 'users-stage-397596874269.us-east1.run.app']
 if DEBUG:
     ALLOWED_HOSTS.extend(['.localhost', '127.0.0.1', '[::1]', '0.0.0.0', env("NGROK_HOST", str)])
-    NGROK_IP = env("NGROK_IP", str)
-    CSRF_TRUSTED_ORIGINS = [NGROK_IP]
+    # NGROK_IP = env("NGROK_IP", str)
+    # CSRF_TRUSTED_ORIGINS = [NGROK_IP]
 
 
 # CORS
