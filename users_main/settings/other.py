@@ -14,6 +14,9 @@ from .core import (
     prod_conversions_config,
     stage_pubsub_config,
     prod_pubsub_config,
+    stage_users_tasks,
+    prod_users_tasks,
+    gcp_infos,
 )
 
 # CONSTANTS
@@ -87,3 +90,17 @@ PUBSUB_APP_TOPIC_ID = stage_pubsub_config.get("PUBSUB_APP_TOPIC_ID") if STAGE el
 PUBSUB_FUNNEL_TOPIC_ID = stage_pubsub_config.get("PUBSUB_FUNNEL_TOPIC_ID") if STAGE else prod_pubsub_config.get("PUBSUB_FUNNEL_TOPIC_ID")
 PUBSUB_UDID_TOPIC_ID = stage_pubsub_config.get("PUBSUB_UDID_TOPIC_ID") if STAGE else prod_pubsub_config.get("PUBSUB_UDID_TOPIC_ID")
 PUBSUB_PM_TOPIC_ID = stage_pubsub_config.get("PUBSUB_PM_TOPIC_ID") if STAGE else prod_pubsub_config.get("PUBSUB_PM_TOPIC_ID")
+
+
+# GCP INFOS
+GCP_PROJECT_ID = gcp_infos.get("GCP_PROJECT_ID")
+GCP_LOCATION = gcp_infos.get("GCP_LOCATION")
+
+# GOOGLE TASKS INFO
+STAGE_QUEUE_SEND_WELCOME = stage_users_tasks.get('STAGE_QUEUE_SEND_WELCOME') if STAGE else prod_users_tasks.get("PROD_QUEUE_SEND_WELCOME")
+STAGE_QUEUE_DELAY_EMAIL=stage_users_tasks.get('STAGE_QUEUE_DELAY_EMAIL') if STAGE else prod_users_tasks.get("PROD_QUEUE_DELAY_EMAIL")
+STAGE_QUEUE_FAREWELL_EMAIL=stage_users_tasks.get('STAGE_QUEUE_FAREWELL_EMAIL') if STAGE else prod_users_tasks.get("PROD_QUEUE_FAREWELL_EMAIL")
+STAGE_QUEUE_CLOUD_EVENT=stage_users_tasks.get('STAGE_QUEUE_CLOUD_EVENT') if STAGE else prod_users_tasks.get("PROD_QUEUE_CLOUD_EVENT")
+STAGE_QUEUE_PUBLISH_PAYMENT=stage_users_tasks.get('STAGE_QUEUE_PUBLISH_PAYMENT') if STAGE else prod_users_tasks.get("PROD_QUEUE_PUBLISH_PAYMENT")
+STAGE_QUEUE_PUBLISH_EVENT=stage_users_tasks.get('STAGE_QUEUE_PUBLISH_EVENT') if STAGE else prod_users_tasks.get("PROD_QUEUE_PUBLISH_EVENT")
+STAGE_QUEUE_BIND_DEVICE=stage_users_tasks.get('STAGE_QUEUE_BIND_DEVICE') if STAGE else prod_users_tasks.get("PROD_QUEUE_BIND_DEVICE")
