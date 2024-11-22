@@ -83,9 +83,16 @@ gcp_infos = json.loads(gcp_infos_json) if gcp_infos_json else {}
 # HOSTS
 ALLOWED_HOSTS = ['api.jobescape.me', 'api.jobescape.us']
 if STAGE:
-    ALLOWED_HOSTS = ['stage.api.jobescape.me', 'stage.api.jobescape.us', 'users-stage-397596874269.us-east1.run.app']
+    ALLOWED_HOSTS = [
+        'stage.api.jobescape.me', 
+        'stage.api.jobescape.us', 
+        'users-stage-397596874269.us-east1.run.app'
+    ]
 if DEBUG:
     ALLOWED_HOSTS.extend(['.localhost', '127.0.0.1', '[::1]', '0.0.0.0', env("NGROK_HOST", str)])
+    CSRF_TRUSTED_ORIGINS = [
+        "https://users-stage-397596874269.us-east1.run.app",
+    ]
     # NGROK_IP = env("NGROK_IP", str)
     # CSRF_TRUSTED_ORIGINS = [NGROK_IP]
 
