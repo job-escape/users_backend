@@ -11,7 +11,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from account.models import CustomUser
 from subscription.models import SubscriptionType
 from web_analytics.event_manager import EventManager
-from web_analytics.tasks import bindDeviceToUser
+# from web_analytics.tasks import bindDeviceToUser
+from google_tasks.tasks import create_bind_device_task
 
 
 class CustomGenericViewSet(GenericViewSet):
@@ -57,7 +58,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         device_id = data['device_id']
         if device_id is not None:
             if device_id != data.get("user_device_id"):
-                bindDeviceToUser.delay(device_id, data['id'])
+                # bindDeviceToUser.delay(device_id, data['id'])
+                create_bind_device_task(device_id, data['id'])
+                
                 CustomUser.objects.filter(id=data['id']).update(device_id=device_id)
         EventManager().sendEvent("pr_webapp_user_signined", data['id'], topic="app")
         return Response(serializer.validated_data)

@@ -35,6 +35,7 @@ if STAGE:
     stage_conversions_config_json = env("CONVERSIONS_CONFIG")
     stage_pubsub_config_json = env("PUBSUB_CONFIG")
     stage_users_tasks_json = env("STAGE_USERS_TASKS")
+    stage_jwt_secrets_json = env("JWT_SECRETS")
     prod_solidgate_config_json = None
     prod_db_json = None
     prod_posthog_config_json = None
@@ -42,6 +43,7 @@ if STAGE:
     prod_conversions_config_json = None
     prod_pubsub_config_json = None
     prod_users_tasks_json = None
+    prod_jwt_secrets_json = None
 else:
     stage_db_json = None
     stage_solidgate_config_json = None
@@ -50,6 +52,7 @@ else:
     stage_conversions_config_json = None
     stage_pubsub_config_json = None
     stage_users_tasks_json = None
+    stage_jwt_secrets_json = None
     prod_solidgate_config_json = env("SOLIDGATE_CONFIG")
     prod_db_json = env("USERS_PROD_DB")
     prod_posthog_config_json = env("POSTHOG_CONFIG")
@@ -57,6 +60,7 @@ else:
     prod_conversions_config_json = env("CONVERSIONS_CONFIG")
     prod_pubsub_config_json = env("PUBSUB_CONFIG")
     prod_users_tasks_json = env("PROD_USERS_TASKS")
+    prod_jwt_secrets_json = env("JWT_SECRETS")
 
 aws_secrets_json = env("AWS_SECRETS")
 gcp_infos_json = env("GCP_INFOS")
@@ -67,7 +71,8 @@ stage_posthog_config = json.loads(stage_posthog_config_json) if stage_posthog_co
 stage_checkout_config = json.loads(stage_checkout_config_json) if stage_checkout_config_json else {}
 stage_conversions_config = json.loads(stage_conversions_config_json) if stage_conversions_config_json else {}
 stage_pubsub_config = json.loads(stage_pubsub_config_json) if stage_pubsub_config_json else {}
-stage_users_tasks = json.loads(prod_users_tasks_json) if prod_users_tasks_json else {}
+stage_users_tasks = json.loads(stage_users_tasks_json) if stage_users_tasks_json else {}
+stage_jwt_secrets = json.loads(stage_jwt_secrets_json) if stage_jwt_secrets_json else {}
 prod_solidgate_config = json.loads(prod_solidgate_config_json) if prod_solidgate_config_json else {}
 prod_db = json.loads(prod_db_json) if prod_db_json else {}
 prod_posthog_config = json.loads(prod_posthog_config_json) if prod_posthog_config_json else {}
@@ -75,6 +80,7 @@ prod_checkout_config = json.loads(prod_checkout_config_json) if prod_checkout_co
 prod_conversions_config = json.loads(prod_conversions_config_json) if prod_conversions_config_json else {}
 prod_pubsub_config = json.loads(prod_pubsub_config_json) if prod_pubsub_config_json else {}
 prod_users_tasks = json.loads(prod_users_tasks_json) if prod_users_tasks_json else {}
+prod_jwt_secrets = json.loads(prod_jwt_secrets_json) if prod_jwt_secrets_json else {}
 
 aws_secrets = json.loads(aws_secrets_json) if aws_secrets_json else {}
 gcp_infos = json.loads(gcp_infos_json) if gcp_infos_json else {}
