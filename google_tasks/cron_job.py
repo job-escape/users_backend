@@ -1,9 +1,11 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from tasks.charge_users import run_charge_users
 import logging
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def charge_users_scheduler_view(request):
     """
     Trigger `run_charge_users` via Google Cloud Scheduler.
