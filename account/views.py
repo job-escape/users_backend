@@ -324,6 +324,7 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Destr
         response_data = {
             "courses": academy_progress_data.get("elements", 0),
             "modules": academy_progress_data.get("modules", 0),
+            'chats': ai_progress_data.get('chats', 0),
             "interviews": ai_progress_data.get("interviews", 0),
             "streak": streak
         }
