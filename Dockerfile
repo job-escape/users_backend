@@ -12,4 +12,4 @@ RUN pip install --no-cache -r requirements.txt
 
 COPY . /users_main/
 
-CMD ["sh", "-c", "python manage.py migrate && gunicorn --workers=2 --threads=4 --bind 0.0.0.0:$PORT users_main.wsgi:application"]
+CMD ["sh", "-c", "gunicorn --workers=2 --threads=4 --bind 0.0.0.0:$PORT users_main.wsgi:application"]
