@@ -80,16 +80,21 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('google_tasks/bind_device_to_user/', bind_device_to_user_task_view, name='google_tasks_bind_device_to_user'),
-    path('google_tasks/send_cloud_event/', send_cloud_event_task_view, name='google_tasks_send_cloud_event'),
-    path('google_tasks/delay_registration_email/', delay_registration_email_view, name='google_tasks_delay_registration_email'),
-    path('google_tasks/send_farewell_email/', send_farewell_email_task_view, name='google_tasks_send_farewell_email'),
-    path('google_tasks/publish_event/', publish_event_task_view, name='google_tasks_publish_event'),
-    path('google_tasks/publish_payment/', publish_payment_task_view, name='google_tasks_publish_payment'),
-    path('google_tasks/send_welcome/', send_welcome_task_view, name='google_tasks_send_welcome'),
+    path('cloud_tasks/bind_device_to_user/', bind_device_to_user_task_view, name='google_cloud_tasks_bind_device_to_user'),
+    path('cloud_tasks/send_cloud_event/', send_cloud_event_task_view, name='google_cloud_tasks_send_cloud_event'),
+    path('cloud_tasks/delay_registration_email/', delay_registration_email_view, name='google_cloud_tasks_delay_registration_email'),
+    path('cloud_tasks/send_farewell_email/', send_farewell_email_task_view, name='google_cloud_tasks_send_farewell_email'),
+    path('cloud_tasks/publish_event/', publish_event_task_view, name='google_cloud_tasks_publish_event'),
+    path('cloud_tasks/publish_payment/', publish_payment_task_view, name='google_cloud_tasks_publish_payment'),
+    path('cloud_tasks/send_welcome/', send_welcome_task_view, name='google_cloud_tasks_send_welcome'),
 
     path('google_crons/run_charge_users/', charge_users_scheduler_view, name='charge_users_scheduler')
 ]
+
+{
+    "POSTHOG_API_KEY": "phc_smfF6cmwxrBqEC5n1zJt1d7WZ4fdIqpwsoGeGmesPxr",
+    "POSTHOG_HOST": "https://app.posthog.com"
+}
 
 if settings.DEBUG:
     # DJANGO-SILK

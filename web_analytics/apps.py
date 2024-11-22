@@ -8,6 +8,5 @@ class WebAnalyticsConfig(AppConfig):
     name = 'web_analytics'
 
     def ready(self):
-        pass
-        # posthog.api_key = settings.POSTHOG_API_KEY
-        # posthog.host = settings.POSTHOG_HOST
+        posthog.api_key = settings.POSTHOG_API_KEY
+        posthog.host = settings.POSTHOG_HOST
