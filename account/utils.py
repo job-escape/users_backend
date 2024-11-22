@@ -1,3 +1,7 @@
+import requests
+import logging
+from requests.exceptions import RequestException
+from rest_framework.exceptions import APIException
 from django.contrib.auth.models import AnonymousUser
 from django.shortcuts import get_object_or_404
 from rest_framework.request import Request
@@ -17,7 +21,7 @@ def select_payment_system(email: str, country_code: str):
     :rtype: GatewayChoices
     """
     # TODO what to do with this?
-    return GatewayChoices.PADDLE
+    return GatewayChoices.CHECKOUT
 
 
 def get_user_or_404(request: Request, queryset):
@@ -29,6 +33,20 @@ def get_user_or_404(request: Request, queryset):
             raise BadRequest("email is required.")
     return user
 
+
+def fetch_progress_counts_from_microservices(url, auth_token, timeout=30):
+    url = url + "/external/progress/counts/"
+    headers = {}
+    if auth_token:
+        headers["Authorization"] = f"Bearer {auth_token}"
+    
+    try:
+        response = requests.get(url, headers=headers, timeout=timeout)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        logging.warning(f"Failed to fetch data from {url}. Error: {str(e)}")
+        raise APIException(f"Failed to fetch data from {url}: {e}")
 
 # def createPaddleSubscriptionManua(email, customer_id, subscription_id):
 #     user, _ = CustomUser.objects.get_or_create(email=email)

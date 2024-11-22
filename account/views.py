@@ -2,7 +2,7 @@ import json
 import random
 import string
 from typing import Any
-
+from django.conf import settings
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.db.transaction import atomic
@@ -32,7 +32,7 @@ from account.serializers import (UserAddNameSerializer, UserBasicSerializer,
                                  UserVerifyCodeResponseSerializer,
                                  UserVideoCreditSerializer,
                                  )
-from account.utils import get_user_or_404, select_payment_system
+from account.utils import get_user_or_404, select_payment_system, fetch_progress_counts_from_microservices
 from custom.custom_exceptions import BadRequest
 from custom.custom_permissions import IsSelf
 # from interview_prep.models import UserInterviewPrep
@@ -318,11 +318,13 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Destr
             date = start + timezone.timedelta(days=day)
             if date.date() in dates:
                 streak[day] = True
+        
+        academy_progress_data = fetch_progress_counts_from_microservices(settings.ACADEMY_SERVICE_URL, auth_token=request.auth)
+        ai_progress_data = fetch_progress_counts_from_microservices(settings.AI_SERVICE_URL, auth_token=request.auth)
         response_data = {
-            # "courses_completed": CourseProgress.objects.filter(user=user, is_finished=True).count(),
-            # "learning_paths": LearningPathProgress.objects.filter(user=user, is_finished=True).count(),
-            # "projects": ProjectTask.objects.filter(project__in=Project.objects.filter(user=user)).count(),
-            # "interviews": UserInterviewPrep.objects.filter(user=user).count(),
+            "courses": academy_progress_data.get("elements", 0),
+            "modules": academy_progress_data.get("modules", 0),
+            "interviews": ai_progress_data.get("interviews", 0),
             "streak": streak
         }
         ser = self.get_serializer(data=response_data)
