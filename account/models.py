@@ -138,9 +138,3 @@ class UserOnboarding(models.Model):
     first_text = models.BooleanField(_("First text generation?"), default=False)
     first_image = models.BooleanField(_("First image generation?"), default=False)
     first_video = models.BooleanField(_("First video generation?"), default=False)
-
-class TestingOne(models.Model):
-    test = models.BooleanField(default=False, help_text="Test")
-
-class TestingTwo(models.Model):
-    test = models.BooleanField(default=False, help_text="Test")
