@@ -6,7 +6,7 @@ from web_analytics.event_manager import EventManager
 from shared.emailer import send_template_email
 from web_analytics.tasks import publishMessage
 from account.models import CustomUser
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from drf_spectacular.utils import extend_schema
 from django.utils import timezone
 from web_analytics.pubsub import EventRawSerializer, PaymentsSerializer
@@ -49,6 +49,7 @@ def create_send_welcome_task(user_id, user_email):
 
 # 1st TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def send_welcome_task_view(request):
     try:
@@ -123,6 +124,7 @@ def create_delay_registration_email_task(user_id, cascade, delay_minutes=0, dela
 
 # 2nd TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def delay_registration_email_view(request):
     """Handles delayed registration email tasks."""
@@ -209,6 +211,7 @@ def create_send_farewell_email_task(
 
 # 3rd TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def send_farewell_email_task_view(request):
     """Handles the Cloud Task for sending a farewell email."""
@@ -298,6 +301,7 @@ def create_send_cloud_event_task(
 
 # 4th TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def send_cloud_event_task_view(request):
     """Handles the Cloud Task for sending a cloud event."""
@@ -381,6 +385,7 @@ def create_publish_payment_task(topic_id: str, data: dict):
 
 # 5th TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def publish_payment_task_view(request):
     """Handles the Cloud Task for publishing a payment message."""
@@ -443,6 +448,7 @@ def create_publish_event_task(topic_id: str, data: dict):
 
 # 6th TASK endpoint
 @api_view(['POST'])
+@authentication_classes([])
 @permission_classes([AllowAny])
 def publish_event_task_view(request):
     """Handles the Cloud Task for publishing an event message."""
