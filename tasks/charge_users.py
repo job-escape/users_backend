@@ -48,7 +48,6 @@ def run_charge_users():
         .select_related("ch_user_subscription__user_subscription__user__checkout_customer")\
         .prefetch_related("ch_user_subscription__user_subscription__subscription")
     api = CheckoutAPI()
-    new_attempts_count = 0
     updated_attempts_count = 0
     user_subs_count = 0
     for attempt in queryset:
@@ -243,7 +242,6 @@ def run_charge_users():
 
     return {
         "updated_attempts": updated_attempts_count,
-        "new_attempts": new_attempts_count,
         "updated_usubscriptions": user_subs_count,
     }
 
