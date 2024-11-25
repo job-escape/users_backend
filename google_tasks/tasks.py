@@ -470,10 +470,10 @@ def create_bind_device_task(device_id: str, user_id: str | int):
     client = tasks_v2.CloudTasksClient()
     if settings.STAGE:
         queue = settings.STAGE_QUEUE_BIND_DEVICE
-        url = f"{settings.STAGE_USERS_SERVICE_URL}/cloud_tasks/publish_event/"
+        url = f"{settings.STAGE_USERS_SERVICE_URL}/cloud_tasks/bind_device_to_user/"
     else:
         queue = settings.PROD_QUEUE_BIND_DEVICE
-        url = f"{settings.PROD_USERS_SERVICE_URL}/cloud_tasks/publish_event/"
+        url = f"{settings.PROD_USERS_SERVICE_URL}/cloud_tasks/bind_device_to_user/"
 
     parent = client.queue_path(settings.GCP_PROJECT_ID, settings.GCP_LOCATION, queue)
 
