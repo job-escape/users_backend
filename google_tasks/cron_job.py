@@ -15,7 +15,6 @@ def charge_users_scheduler_view(request):
 
     try:
         response = run_charge_users()
-        print(response)
         logging.debug("Google Cloud Scheduler triggered `run_charge_users` successfully.")
         return Response({'message': 'Charge users process completed successfully.', 'details': response}, status=200)
     except Exception as e:
