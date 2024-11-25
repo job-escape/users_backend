@@ -34,18 +34,24 @@ def create_send_welcome_task(user_id, user_email):
         "user_email": user_email
     }
 
-    task = {
-        "http_request": {
-            "http_method": tasks_v2.HttpMethod.PATCH,
-            "url": url,
-            "headers": {
-                "Content-Type": "application/json",
-            },
-            "body": json.dumps(payload).encode()
+    try:
+        task = {
+            "http_request": {
+                "http_method": tasks_v2.HttpMethod.PATCH,
+                "url": url,
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": json.dumps(payload).encode()
+            }
         }
-    }
 
-    client.create_task(parent=parent, task=task)
+        client.create_task(parent=parent, task=task)
+        logging.debug(f"Created task create_send_welcome_task for {user_email}")
+    except Exception as e:
+        logging.error(f"Failed to create create_send_welcome_task: {e}")
+        raise
+
 
 # 1st TASK endpoint
 @api_view(['POST'])
@@ -114,7 +120,7 @@ def create_delay_registration_email_task(user_id, cascade, delay_minutes=0, dela
         }
 
         response = client.create_task(parent=parent, task=task)
-        logging.info(f"Created task: {response.name} for user {user_id}, cascade {cascade} with delay {delay_minutes} minutes and {delay_days} days")
+        logging.debug(f"Created task: {response.name} for user {user_id}, cascade {cascade} with delay {delay_minutes} minutes and {delay_days} days")
 
     except Exception as e:
         logging.error(f"Failed to create Cloud Task: {e}")
@@ -203,7 +209,7 @@ def create_send_farewell_email_task(
         logging.debug(f"Created farewell email task: {response.name} for user {user_id}")
 
     except Exception as e:
-        logging.error(f"Failed to create farewell email task: {e}")
+        logging.error(f"Failed to create create_send_farewell_email_task: {str(e)}")
         raise
 
 
@@ -289,10 +295,10 @@ def create_send_cloud_event_task(
         }
 
         response = client.create_task(parent=parent, task=task)
-        logging.debug(f"Created cloud event task: {response.name} for event '{event_name}' and user {user_id}")
+        logging.debug(f"Created create_send_cloud_event_task: {response.name} for event '{event_name}' and user {user_id}")
 
     except Exception as e:
-        logging.error(f"Failed to create cloud event task: {e}")
+        logging.error(f"Failed to create create_send_cloud_event_task: {str(e)}")
         raise
 
 
@@ -338,7 +344,7 @@ def send_cloud_event_task_view(request):
         return Response(status=200)
 
     except Exception as e:
-        logging.error(f"Error processing cloud event task: {e}")
+        logging.error(f"Error processing send_cloud_event_task_view: {e}")
         return Response(status=500)
 
 # 5th TASK
@@ -354,30 +360,33 @@ def create_publish_payment_task(topic_id: str, data: dict):
 
     parent = client.queue_path(settings.GCP_PROJECT_ID, settings.GCP_LOCATION, queue)
 
-    serializer = PaymentsSerializer(data=data)
-    if not serializer.is_valid():
-        logging.error("Web analytics: create_publish_payment_task: Invalid data! errors=%s", str(serializer.errors))
-        raise ValueError("Invalid data in create_publish_payment_task")
+    try:
+        serializer = PaymentsSerializer(data=data)
+        if not serializer.is_valid():
+            logging.error("Web analytics: create_publish_payment_task: Invalid data! errors=%s", str(serializer.errors))
+            raise ValueError("Invalid data in create_publish_payment_task")
 
-    payload = {
-        "topic_id": topic_id,
-        "data": serializer.data,
-    }
+        payload = {
+            "topic_id": topic_id,
+            "data": serializer.data,
+        }
 
-    task = {
-        "http_request": {
-            "http_method": tasks_v2.HttpMethod.POST,
-            "url": url,
-            "headers": {
-                "Content-Type": "application/json",
+        task = {
+            "http_request": {
+                "http_method": tasks_v2.HttpMethod.POST,
+                "url": url,
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": json.dumps(payload).encode()
             },
-            "body": json.dumps(payload).encode()
-        },
-    }
+        }
 
-    client.create_task(parent=parent, task=task)
-    logging.debug("Publish payment task created for topic %s", topic_id)
-
+        client.create_task(parent=parent, task=task)
+        logging.debug("Publish payment task created for topic %s", topic_id)
+    except Exception as e:
+        logging.error(f"Error processing create_publish_payment_task: {str(e)}")
+        raise
 
 # 5th TASK endpoint
 @api_view(['POST'])
@@ -416,30 +425,33 @@ def create_publish_event_task(topic_id: str, data: dict):
 
     parent = client.queue_path(settings.GCP_PROJECT_ID, settings.GCP_LOCATION, queue)
 
-    serializer = EventRawSerializer(data=data)
-    if not serializer.is_valid():
-        logging.error("Web analytics: create_publish_event_task: Invalid data! errors=%s", str(serializer.errors))
-        raise ValueError("Invalid data")
+    try:
+        serializer = EventRawSerializer(data=data)
+        if not serializer.is_valid():
+            logging.error("Web analytics: create_publish_event_task: Invalid data! errors=%s", str(serializer.errors))
+            raise ValueError("Invalid data")
 
-    payload = {
-        "topic_id": topic_id,
-        "data": serializer.data,
-    }
+        payload = {
+            "topic_id": topic_id,
+            "data": serializer.data,
+        }
 
-    task = {
-        "http_request": {
-            "http_method": tasks_v2.HttpMethod.POST,
-            "url": url,
-            "headers": {
-                "Content-Type": "application/json",
+        task = {
+            "http_request": {
+                "http_method": tasks_v2.HttpMethod.POST,
+                "url": url,
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": json.dumps(payload).encode()
             },
-            "body": json.dumps(payload).encode()
-        },
-    }
+        }
 
-    client.create_task(parent=parent, task=task)
-    logging.debug("Publish payment task created for topic %s", topic_id)
-
+        client.create_task(parent=parent, task=task)
+        logging.debug("Publish payment task created for topic %s", topic_id)
+    except Exception as e:
+        logging.error(f"Error processing create_publish_event_task: {str(e)}")
+        raise
 
 # 6th TASK endpoint
 @api_view(['POST'])
@@ -477,28 +489,31 @@ def create_bind_device_task(device_id: str, user_id: str | int):
 
     parent = client.queue_path(settings.GCP_PROJECT_ID, settings.GCP_LOCATION, queue)
 
-    ts = round(timezone.now().timestamp() * 1e6)
-    payload = {
-        "device_id": device_id,
-        "user_id": str(user_id),
-        "received_at": ts,
-        "server_processed_at": ts,
-    }
+    try:
+        ts = round(timezone.now().timestamp() * 1e6)
+        payload = {
+            "device_id": device_id,
+            "user_id": str(user_id),
+            "received_at": ts,
+            "server_processed_at": ts,
+        }
 
-    task = {
-        "http_request": {
-            "http_method": tasks_v2.HttpMethod.POST,
-            "url": url,
-            "headers": {
-                "Content-Type": "application/json",
+        task = {
+            "http_request": {
+                "http_method": tasks_v2.HttpMethod.POST,
+                "url": url,
+                "headers": {
+                    "Content-Type": "application/json",
+                },
+                "body": json.dumps(payload).encode()
             },
-            "body": json.dumps(payload).encode()
-        },
-    }
+        }
 
-    client.create_task(parent=parent, task=task)
-    logging.info("Bind device task created for device %s and user %s", device_id, user_id)
-
+        client.create_task(parent=parent, task=task)
+        logging.debug("Bind device task created for device %s and user %s", device_id, user_id)
+    except Exception as e:
+        logging.error(f"Error processing create_bind_device_task: {str(e)}")
+        raise
 
 # 7th TASK endpoint
 @api_view(['POST'])
