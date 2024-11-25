@@ -3,6 +3,7 @@ import json
 import logging
 from django.conf import settings
 from web_analytics.event_manager import EventManager
+from datetime import date, datetime
 from shared.emailer import send_template_email
 from web_analytics.tasks import publishMessage
 from account.models import CustomUser
@@ -16,6 +17,12 @@ from rest_framework.permissions import AllowAny
 from google.protobuf.timestamp_pb2 import Timestamp
 from shared.emailer import send_complete_registration
 
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime):
+            return o.isoformat()
+
+        return json.JSONEncoder.default(self, o)
 
 
 # 1st TASK
@@ -42,7 +49,7 @@ def create_send_welcome_task(user_id, user_email):
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             }
         }
 
@@ -114,7 +121,7 @@ def create_delay_registration_email_task(user_id, cascade, delay_minutes=0, dela
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
             "schedule_time": timestamp,
         }
@@ -201,7 +208,7 @@ def create_send_farewell_email_task(
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
         }
 
@@ -283,6 +290,8 @@ def create_send_cloud_event_task(
             "kwargs": kwargs,
         }
 
+        print(kwargs)
+
         task = {
             "http_request": {
                 "http_method": tasks_v2.HttpMethod.POST,
@@ -290,7 +299,7 @@ def create_send_cloud_event_task(
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
         }
 
@@ -378,7 +387,7 @@ def create_publish_payment_task(topic_id: str, data: dict):
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
         }
 
@@ -443,7 +452,7 @@ def create_publish_event_task(topic_id: str, data: dict):
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
         }
 
@@ -505,7 +514,7 @@ def create_bind_device_task(device_id: str, user_id: str | int):
                 "headers": {
                     "Content-Type": "application/json",
                 },
-                "body": json.dumps(payload).encode()
+                "body": json.dumps(payload, cls=DateTimeEncoder).encode()
             },
         }
 
