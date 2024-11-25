@@ -14,9 +14,9 @@ def charge_users_scheduler_view(request):
         return Response({'error': 'Only POST requests are allowed.'}, status=405)
 
     try:
-        run_charge_users()
+        response = run_charge_users()
         logging.debug("Google Cloud Scheduler triggered `run_charge_users` successfully.")
-        return Response(status=200)
+        return Response({'message': 'Charge users process completed successfully.', 'details': response}, status=200)
     except Exception as e:
         logging.error(f"Error running `run_charge_users`: {str(e)}")
-        return Response(status=500)
+        return Response({'error': 'Failed to charge users.', 'details': str(e)}, status=500)
