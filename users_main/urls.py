@@ -91,11 +91,6 @@ urlpatterns += [
     path('google_crons/run_charge_users/', charge_users_scheduler_view, name='charge_users_scheduler')
 ]
 
-{
-    "POSTHOG_API_KEY": "phc_smfF6cmwxrBqEC5n1zJt1d7WZ4fdIqpwsoGeGmesPxr",
-    "POSTHOG_HOST": "https://app.posthog.com"
-}
-
 if settings.DEBUG:
     # DJANGO-SILK
     urlpatterns.append(path('silk/', include('silk.urls', namespace='silk')))
