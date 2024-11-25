@@ -322,9 +322,9 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Destr
         academy_progress_data = fetch_progress_counts_from_microservices(settings.ACADEMY_SERVICE_URL, auth_token=request.auth)
         ai_progress_data = fetch_progress_counts_from_microservices(settings.AI_SERVICE_URL, auth_token=request.auth)
         response_data = {
-            "courses": academy_progress_data.get("elements", 0),
-            "modules": academy_progress_data.get("modules", 0),
-            'chats': ai_progress_data.get('chats', 0),
+            "courses_completed": academy_progress_data.get("elements", 0),
+            "learning_paths": academy_progress_data.get("modules", 0),
+            'projects': ai_progress_data.get('chats', 0),
             "interviews": ai_progress_data.get("interviews", 0),
             "streak": streak
         }
