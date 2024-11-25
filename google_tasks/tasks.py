@@ -290,8 +290,6 @@ def create_send_cloud_event_task(
             "kwargs": kwargs,
         }
 
-        print(kwargs)
-
         task = {
             "http_request": {
                 "http_method": tasks_v2.HttpMethod.POST,
